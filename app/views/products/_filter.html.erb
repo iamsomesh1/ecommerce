@@ -1,0 +1,8 @@
+<details>
+	<summary>Filter Price</summary>
+		<%= form_for "",url: products_path, role: "search", method: :get do %>
+			<%= number_field_tag :filter, @filter0, placeholder: "0",style:'width:80px;' %>
+			<%= number_field_tag :filter1, @filter1, placeholder: "100",style:'width:80px;' %>
+				<%= submit_tag "Filter" %>
+		<% end %><br>
+</details>

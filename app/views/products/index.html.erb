@@ -1,0 +1,38 @@
+<%= render 'filter' %>
+<%= render 'carts/cart', product: @product %>
+<h1 style="margin-left: 431px">Products</h1> <hr>
+
+<% @products.each do |product| %>
+  <div class="row"></div>
+    <div class="col-md-4 card mt-4 bg-ligt">
+      <div class="card-body">
+        <%= image_tag(product.image, style:'width:100px;') %>
+        <h5 class="card-title">Product Name - <%= product.product_name %></h5>
+        <p class="card-text">Description - <%= product.description %></p>
+        <h6 class="card-text">Price - <%= product.price %> Rs</h6>
+          <td><%= link_to 'Show', product %></td>
+
+            <% if can? :update, product %>
+              |<td><%= link_to 'Edit', edit_product_path(product) %></td> |
+              <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
+
+            <% if user_signed_in? %>
+            <% if current_user.type != "Admin" %>
+              <%= button_to 'Add to cart',  cart_add_to_cart_path(product_id: product, cart_id: current_user.cart.id), :method => :post %>
+              <% end %>
+            <% else %>
+            <td><%= button_to 'Add to cart', new_user_session_path %></td>
+            <% end %>
+      </div>
+    </div>
+<%end%>
+</br>
+<% if @page.present? %>
+  <div>
+    <% if @page > 0 %>
+    <%= link_to "Last Page", root_path(page: @page - 1) %> |
+    <% end %>
+    <%= link_to "Next Page", root_path(page: @page + 1) %>
+  </div>
+<% end %>
